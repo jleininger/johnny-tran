@@ -1,0 +1,8 @@
+[
+    {"src": "screens/title.jpg", "id": "title"},
+    {"src": "screens/gameover.jpg", "id": "gameover"},
+    {"src": "screens/playscreen.jpg", "id": "playScreen"},
+    {"src": "screens/instructions.jpg", "id": "instructions"},
+    {"src": "buttons.png", "id": "buttons"},
+    {"src": "sprites.png", "id": "mySprites"}
+]
