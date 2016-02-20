@@ -13,36 +13,41 @@ class GameManager {
         this.titleScreen = null;
         this.playScreen = null;
         this.gameOverScreen = null;
-        this.howToScreen = null;  	      
+        this.howToScreen = null;
+        this.graphicsLoaded = false;	      
     }
     
-    initScreens() {
+    initGraphics(stage) {
         this.assetLoader.loadFiles(() => {
             this.titleScreen = new createjs.Bitmap(this.assetLoader.queue.getResult("title"));
-            this.playScreen = new createjs.Bitmap(this.queue.getResult("playScreen"));
-            this.gameOverScreen = new createjs.Bitmap(this.queue.getResult("gameover"));
-            this.howToScreen = new createjs.Bitmap(this.queue.getResult("instructions"));   
+            this.playScreen = new createjs.Bitmap(this.assetLoader.queue.getResult("playScreen"));
+            this.gameOverScreen = new createjs.Bitmap(this.assetLoader.queue.getResult("gameover"));
+            this.howToScreen = new createjs.Bitmap(this.assetLoader.queue.getResult("instructions"));
+            this.street = this.assetLoader.queue.getResult("street");
+            
+            stage.addChildAt(this.titleScreen, screenOrder.title);
+            stage.addChildAt(this.howToScreen, screenOrder.howTo).visible = false;
+            stage.addChildAt(this.playScreen, screenOrder.play).visible = false;
+            stage.addChildAt(this.gameOverScreen, screenOrder.gameOver).visible = false;
+            
+            this.graphicsLoaded = true;
         });
     }
     
-    goToTitleScreen() {
-        
+    startGame(stage) {
+        this.roadMatrix = new createjs.Matrix2D();
+        this.roadShape = new createjs.Shape();
+        stage.addChild(this.roadShape); 
     }
     
-    pauseGame() {
-        
-    }
-    
-    playGame() {
-        
-    }
-    
-    gameOver() {
-        
-    }
-    
-    showHowTo() {
-        
+    scrollBackground() {
+        if(this.graphicsLoaded) {
+            this.roadMatrix.translate(0, -2);
+            this.roadShape.graphics
+                .clear()
+                .beginBitmapFill(this.street, "repeat", this.roadMatrix)
+                .rect(0, 0, 800, 600);    
+        }
     }
 }
 

@@ -3,8 +3,7 @@ const manifest = [
     {src: "screens/gameover.jpg", id:"gameover"},
     {src: "screens/playscreen.jpg", id:"playScreen"},
     {src: "screens/instructions.jpg", id:"instructions"},
-    {src: "buttons.png", id:"buttons"},
-    {src: "sprites.png", id:"mySprites"}
+    {src: "street.png", id:"street"}
 ];
 
 class Preloader {
@@ -18,3 +17,5 @@ class Preloader {
         this.queue.loadManifest(manifest);
     }
 }
+
+export default Preloader;
