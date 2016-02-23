@@ -1,3 +1,4 @@
+import { SCREEN_HEIGHT, SCREEN_WIDTH, SCROLL_SPEED } from './constants/gameConstants.js';
 import AssetLoader from './loader/assetLoader.js';
 
 const screenOrder = {
@@ -14,7 +15,7 @@ class GameManager {
         this.playScreen = null;
         this.gameOverScreen = null;
         this.howToScreen = null;
-        this.graphicsLoaded = false;	      
+        this.graphicsLoaded = false;      
     }
     
     initGraphics(stage) {
@@ -29,24 +30,45 @@ class GameManager {
             stage.addChildAt(this.howToScreen, screenOrder.howTo).visible = false;
             stage.addChildAt(this.playScreen, screenOrder.play).visible = false;
             stage.addChildAt(this.gameOverScreen, screenOrder.gameOver).visible = false;
+            stage.update();
             
             this.graphicsLoaded = true;
+        });
+    }
+    
+    initSounds() {
+        createjs.Sound.registerSound({id:"traffic", src:"assets/sounds/traffic.mp3"});
+        createjs.Sound.registerSound({id:"crash", src:"assets/sounds/crash.wav"});
+        createjs.Sound.addEventListener("fileload", (event) => {
+            this.soundsLoaded = true;
         });
     }
     
     startGame(stage) {
         this.roadMatrix = new createjs.Matrix2D();
         this.roadShape = new createjs.Shape();
-        stage.addChild(this.roadShape); 
+        stage.addChild(this.roadShape);
+        
+        if(this.soundsLoaded) {
+            createjs.Sound.play("traffic", { loop: -1 });
+        }
+    }
+    
+    gameOver(stage, playBtn, score) {
+        createjs.Sound.stop();
+        const gameOverDisplay = stage.getChildAt(screenOrder.gameOver);
+        gameOverDisplay.visible = true;
+        stage.addChild(gameOverDisplay, playBtn, score);
+        stage.update();
     }
     
     scrollBackground() {
         if(this.graphicsLoaded) {
-            this.roadMatrix.translate(0, -2);
+            this.roadMatrix.translate(0, SCROLL_SPEED);
             this.roadShape.graphics
                 .clear()
                 .beginBitmapFill(this.street, "repeat", this.roadMatrix)
-                .rect(0, 0, 800, 600);    
+                .rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);   
         }
     }
 }

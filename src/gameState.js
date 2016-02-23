@@ -9,20 +9,20 @@ const gameState = {
     update: (state, action) => {
         switch(action.type) {
             case GAME_OVER:
-                this.playing = false;
-                this.gameOver = true;
+                gameState.playing = false;
+                gameState.gameOver = true;
             break;
             case PLAY:
-                this.playing = true;
-                this.gameOver = false;
+                gameState.playing = true;
+                gameState.gameOver = false;
             break;
             case PAUSE:
-                this.paused = true;
-                this.playing = false;
+                gameState.paused = true;
+                gameState.playing = false;
             break;
             case HOW_TO:
-                this.playing = false;
-                this.inHowTo = true;
+                gameState.playing = false;
+                gameState.inHowTo = true;
             break;
         }    
     }
